@@ -27,6 +27,23 @@
       body.cursor-hidden {
         cursor: none;
       }
+      .badge-card:hover .badge-img {
+        transform: rotate(-8deg) scale(1.15);
+      }
+      .badge-card:hover {
+        background: #111;
+        color: white;
+      }
+      .badge-card:hover .badge-label {
+        color: white;
+      }
+      .badge-card:hover .badge-desc {
+        color: #ccc;
+      }
+      .badge-card:hover .badge-count {
+        background: white;
+        color: black;
+      }
     </style>
   </head>
   <body>
@@ -35,7 +52,7 @@
         id="banana"
         src="mouse-walking-1.png"
         alt="Banana Thief"
-        class="fixed w-20 top-1/2 left-1/2"
+        class="fixed w-20 top-1/2 left-1/2 z-[9999]"
       />
 
       <script>
@@ -140,6 +157,183 @@
         </header>
 
         <div class="grid grid-cols-1 gap-12">
+          <div class="bg-stone-200 p-4">
+            <div class="flex items-center justify-between mb-4">
+              <h1 class="text-3xl font-bold text-stone-950 font-display">
+                Focus crimes
+              </h1>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+              <!-- Arson -->
+              <div
+                class="group cursor-pointer bg-stone-300 p-5 flex flex-col items-center text-center transition-all duration-300 hover:bg-stone-900 text-balance"
+              >
+                <img
+                  src="arson.svg"
+                  alt="Arson"
+                  class="size-32 mb-3 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110"
+                />
+                <p
+                  class="font-display text-2xl tracking-wide transition-colors duration-300 group-hover:text-white"
+                >
+                  ARSON
+                </p>
+                <p
+                  class="text-stone-600 font-sans text-sm mt-1 transition-colors duration-300 group-hover:text-stone-400"
+                >
+                  Redecorating with fire. No permit, no problem.
+                </p>
+              </div>
+
+              <!-- Assault -->
+              <div
+                class="group cursor-pointer bg-stone-300 p-5 flex flex-col items-center text-center transition-all duration-300 hover:bg-stone-900 text-balance"
+              >
+                <img
+                  src="assault.svg"
+                  alt="Assault"
+                  class="size-32 mb-3 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110"
+                />
+                <p
+                  class="font-display text-xl tracking-wide transition-colors duration-300 group-hover:text-white"
+                >
+                  ASSAULT
+                </p>
+                <p
+                  class="text-stone-600 font-sans text-sm mt-1 transition-colors duration-300 group-hover:text-stone-400"
+                >
+                  Conflict resolution for people who skipped the seminar.
+                </p>
+              </div>
+
+              <!-- Burglary -->
+              <div
+                class="group cursor-pointer bg-stone-300 p-5 flex flex-col items-center text-center transition-all duration-300 hover:bg-stone-900 text-balance"
+              >
+                <img
+                  src="burglary.svg"
+                  alt="Burglary"
+                  class="size-32 mb-3 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110"
+                />
+                <p
+                  class="font-display text-xl tracking-wide transition-colors duration-300 group-hover:text-white"
+                >
+                  BURGLARY
+                </p>
+                <p
+                  class="text-stone-600 font-sans text-sm mt-1 transition-colors duration-300 group-hover:text-stone-400"
+                >
+                  The original unannounced home visit.
+                </p>
+              </div>
+
+              <!-- Drug Offense -->
+              <div
+                class="group cursor-pointer bg-stone-300 p-5 flex flex-col items-center text-center transition-all duration-300 hover:bg-stone-900 text-balance"
+              >
+                <img
+                  src="drug-offense.svg"
+                  alt="Drug Offense"
+                  class="size-32 mb-3 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110"
+                />
+                <p
+                  class="font-display text-xl tracking-wide transition-colors duration-300 group-hover:text-white"
+                >
+                  DRUG OFFENSE
+                </p>
+                <p
+                  class="text-stone-600 font-sans text-sm mt-1 transition-colors duration-300 group-hover:text-stone-400"
+                >
+                  Unlicensed pharmacist. Excellent customer retention.
+                </p>
+              </div>
+
+              <!-- Larceny -->
+              <div
+                class="group cursor-pointer bg-stone-300 p-5 flex flex-col items-center text-center transition-all duration-300 hover:bg-stone-900 text-balance"
+              >
+                <img
+                  src="larceny.svg"
+                  alt="Larceny"
+                  class="size-32 mb-3 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110"
+                />
+                <p
+                  class="font-display text-xl tracking-wide transition-colors duration-300 group-hover:text-white"
+                >
+                  LARCENY
+                </p>
+                <p
+                  class="text-stone-600 font-sans text-sm mt-1 transition-colors duration-300 group-hover:text-stone-400"
+                >
+                  Borrows things. Has never heard of giving them back.
+                </p>
+              </div>
+
+              <!-- Motor Vehicle Theft -->
+              <div
+                class="group cursor-pointer bg-stone-300 p-5 flex flex-col items-center text-center transition-all duration-300 hover:bg-stone-900 text-balance"
+              >
+                <img
+                  src="motor-vehicle-theft.svg"
+                  alt="Motor Vehicle Theft"
+                  class="size-32 mb-3 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110"
+                />
+                <p
+                  class="font-display text-xl tracking-wide transition-colors duration-300 group-hover:text-white"
+                >
+                  VEHICLE THEFT
+                </p>
+                <p
+                  class="text-stone-600 font-sans text-sm mt-1 transition-colors duration-300 group-hover:text-stone-400"
+                >
+                  Free test drive. One-way trip. No Yelp review.
+                </p>
+              </div>
+
+              <!-- Prostitution -->
+              <div
+                class="group cursor-pointer bg-stone-300 p-5 flex flex-col items-center text-center transition-all duration-300 hover:bg-stone-900 text-balance"
+              >
+                <img
+                  src="prostitution.svg"
+                  alt="Prostitution"
+                  class="size-32 mb-3 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110"
+                />
+                <p
+                  class="font-display text-xl tracking-wide transition-colors duration-300 group-hover:text-white"
+                >
+                  PROSTITUTION
+                </p>
+                <p
+                  class="text-stone-600 font-sans text-sm mt-1 transition-colors duration-300 group-hover:text-stone-400"
+                >
+                  Oldest profession. Still no pension plan.
+                </p>
+              </div>
+
+              <!-- Robbery -->
+              <div
+                class="group cursor-pointer bg-stone-300 p-5 flex flex-col items-center text-center transition-all duration-300 hover:bg-stone-900 text-balance"
+              >
+                <img
+                  src="robbery.svg"
+                  alt="Robbery"
+                  class="size-32 mb-3 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110"
+                />
+                <p
+                  class="font-display text-xl tracking-wide transition-colors duration-300 group-hover:text-white"
+                >
+                  ROBBERY
+                </p>
+                <p
+                  class="text-stone-600 font-sans text-sm mt-1 transition-colors duration-300 group-hover:text-stone-400"
+                >
+                  Why be subtle when you can just ask aggressively?
+                </p>
+              </div>
+            </div>
+          </div>
+
           <div class="col-span-1 flex flex-col gap-4 p-4 bg-stone-200">
             <div class="flex items-center justify-between">
               <h1 class="text-3xl font-bold text-stone-950 font-display">
@@ -219,7 +413,6 @@
               class="overflow-hidden border-4 border-stone-300 +"
             ></iframe>
           </div>
-
           <div class="col-span-1 flex flex-col gap-4 p-4 bg-stone-200">
             <div class="flex items-center justify-between">
               <h1 class="text-3xl font-bold text-stone-950 font-display">
