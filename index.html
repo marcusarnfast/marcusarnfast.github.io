@@ -1,59 +1,262 @@
 <!doctype html>
 <html>
   <head>
-    <title>My Data Viz Site</title>
+    <title>We ❤️ SF Crimes</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barrio&family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style type="text/tailwindcss">
+      @theme {
+        --font-sans: 'Funnel Sans', sans-serif;
+        --font-display: 'Barrio', cursive;
+      }
+    </style>
+    <style>
+      #banana {
+        pointer-events: none;
+        transform: translate(-50%, -50%) scaleX(1);
+      }
+      body.cursor-hidden {
+        cursor: none;
+      }
+    </style>
   </head>
-  <body class="min-h-screen bg-gray-100">
-    <main class="max-w-7xl mx-auto p-4">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div
-          class="col-span-1 flex flex-col gap-4 border border-gray-200 rounded-2xl p-4 bg-white"
-        >
-          <h1 class="text-2xl font-bold">Prostitution Heatmap</h1>
-          <a
-            href="prostitution_heatmap.html"
-            class="py-2 px-4 bg-blue-500 flex w-fit text-white rounded-md hover:bg-blue-600 transition-colors"
-          >
-            <p class="text-white">Open full →</p>
-          </a>
-          <iframe
-            src="prostitution_heatmap.html"
-            width="100%"
-            height="600"
-            frameborder="0"
-          ></iframe>
-        </div>
+  <body>
+    <main class="min-h-screen bg-stone-50 font-sans">
+      <img
+        id="banana"
+        src="mouse-walking-1.png"
+        alt="Banana Thief"
+        class="fixed w-20 top-1/2 left-1/2"
+      />
 
-        <div
-          class="col-span-1 flex flex-col gap-4 border border-gray-200 rounded-2xl p-4 bg-white"
-        >
-          <h1 class="text-2xl font-bold">Vehicle Theft</h1>
-          <a
-            href="vehicle_thefts.html"
-            class="py-2 px-4 bg-blue-500 flex w-fit text-white rounded-md hover:bg-blue-600 transition-colors"
-          >
-            <p class="text-white">Open full →</p>
-          </a>
-          <iframe
-            src="vehicle_thefts.html"
-            width="100%"
-            height="600"
-            frameborder="0"
-          ></iframe>
-        </div>
+      <script>
+        const banana = document.getElementById('banana');
+        const WALK_FRAMES = ['mouse-walking-1.png', 'mouse-walking-2.png'];
+        const CAUGHT_IMG = 'mouse-catched.png';
 
+        const SPEED = 0.02;
+        const DIRECTION_THRESHOLD = 1.5;
+        const CATCH_DISTANCE = 40;
+        const WALK_INTERVAL_MS = 200;
+
+        let posX = window.innerWidth / 2;
+        let posY = window.innerHeight / 2;
+        let targetX = posX;
+        let targetY = posY;
+        let facingRight = true;
+        let isCaught = false;
+        let walkFrame = 0;
+        let lastFrameTime = 0;
+
+        document.addEventListener('mousemove', (e) => {
+          targetX = e.clientX;
+          targetY = e.clientY;
+
+          // If cursor moves away while caught, resume chasing
+          if (isCaught) {
+            const dx = targetX - posX;
+            const dy = targetY - posY;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist > CATCH_DISTANCE * 2) {
+              isCaught = false;
+              document.body.classList.remove('cursor-hidden');
+            }
+          }
+        });
+
+        function animate(timestamp) {
+          const dx = targetX - posX;
+          const dy = targetY - posY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (!isCaught) {
+            posX += (targetX - posX) * SPEED;
+            posY += (targetY - posY) * SPEED;
+
+            // Flip direction
+            if (dx > DIRECTION_THRESHOLD) facingRight = true;
+            else if (dx < -DIRECTION_THRESHOLD) facingRight = false;
+
+            // Animate walking frames
+            if (timestamp - lastFrameTime > WALK_INTERVAL_MS) {
+              walkFrame = (walkFrame + 1) % WALK_FRAMES.length;
+              banana.src = WALK_FRAMES[walkFrame];
+              lastFrameTime = timestamp;
+            }
+
+            // Check if caught
+            if (dist < CATCH_DISTANCE) {
+              isCaught = true;
+              banana.src = CAUGHT_IMG;
+              document.body.classList.add('cursor-hidden');
+            }
+          }
+
+          banana.style.left = `${posX}px`;
+          banana.style.top = `${posY}px`;
+          banana.style.transform = `translate(-50%, -50%) scaleX(${
+            facingRight ? -1 : 1
+          })`;
+
+          requestAnimationFrame(animate);
+        }
+
+        requestAnimationFrame(animate);
+      </script>
+
+      <nav class="sticky top-0 bg-stone-50/80 backdrop-blur-sm h-16">
         <div
-          class="col-span-1 flex flex-col gap-4 border border-gray-200 rounded-2xl p-4 bg-white"
+          class="px-6 py-4 flex justify-between items-center w-full max-w-7xl mx-auto"
         >
-          <h1 class="text-2xl font-bold">Focus crimes from 2003 to 2025</h1>
-          <img
-            src="yearly_crime_trends.png"
-            alt="Yearly crime trends in SF"
-            style="max-width: 100%"
-          />
+          <a
+            href="/"
+            class="text-2xl font-bold font-display text-stone-950 hover:text-stone-700 transition-colors"
+          >
+            We ❤️ SF Crimes
+          </a>
+          <!-- <ul class="flex gap-4">
+            <li
+              class="px-4 py-2 rounded-full hover:bg-stone-100 transition-colors font-medium text-sm"
+            >
+              <a href="prostitution_heatmap.html">Prostitution Heatmap</a>
+            </li>
+          </ul> -->
+        </div>
+      </nav>
+      <div class="max-w-7xl mx-auto px-6 pb-20">
+        <header class="text-center py-24">
+          <h1 class="text-6xl font-bold font-display text-stone-950">
+            We are all about crime, love, and harmony.
+          </h1>
+        </header>
+
+        <div class="grid grid-cols-1 gap-12">
+          <div class="col-span-1 flex flex-col gap-4 p-4 bg-stone-200">
+            <div class="flex items-center justify-between">
+              <h1 class="text-3xl font-bold text-stone-950 font-display">
+                Prostitution Heatmap
+              </h1>
+              <a
+                href="prostitution_heatmap.html"
+                target="_blank"
+                class="w-9 h-9 bg-stone-900 flex items-center justify-center text-white rounded-full hover:bg-stone-700 transition-colors"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-maximize2-icon lucide-maximize-2 size-4"
+                >
+                  <path d="M15 3h6v6" />
+                  <path d="m21 3-7 7" />
+                  <path d="m3 21 7-7" />
+                  <path d="M9 21H3v-6" />
+                </svg>
+              </a>
+            </div>
+
+            <iframe
+              src="prostitution_heatmap.html"
+              width="100%"
+              height="600"
+              frameborder="0"
+              class="overflow-hidden border-4 border-stone-300"
+            ></iframe>
+          </div>
+
+          <div class="col-span-1 flex flex-col gap-4 p-4 bg-stone-200">
+            <div class="flex items-center justify-between">
+              <h1 class="text-3xl font-bold text-stone-950 font-display">
+                Vehicle Thefts
+              </h1>
+              <a
+                href="vehicle_thefts.html"
+                target="_blank"
+                class="w-9 h-9 bg-stone-900 flex items-center justify-center text-white rounded-full hover:bg-stone-700 transition-colors"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-maximize2-icon lucide-maximize-2 size-4"
+                >
+                  <path d="M15 3h6v6" />
+                  <path d="m21 3-7 7" />
+                  <path d="m3 21 7-7" />
+                  <path d="M9 21H3v-6" />
+                </svg>
+              </a>
+            </div>
+
+            <iframe
+              src="vehicle_thefts.html"
+              marginheight="0"
+              marginwidth="0"
+              width="100%"
+              height="600"
+              frameborder="0"
+              class="overflow-hidden border-4 border-stone-300 +"
+            ></iframe>
+          </div>
+
+          <div class="col-span-1 flex flex-col gap-4 p-4 bg-stone-200">
+            <div class="flex items-center justify-between">
+              <h1 class="text-3xl font-bold text-stone-950 font-display">
+                Focus crimes from 2003 to 2025
+              </h1>
+              <a
+                href="vehicle_thefts.html"
+                target="_blank"
+                class="w-9 h-9 bg-stone-900 flex items-center justify-center text-white rounded-full hover:bg-stone-700 transition-colors"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-maximize2-icon lucide-maximize-2 size-4"
+                >
+                  <path d="M15 3h6v6" />
+                  <path d="m21 3-7 7" />
+                  <path d="m3 21 7-7" />
+                  <path d="M9 21H3v-6" />
+                </svg>
+              </a>
+            </div>
+
+            <img
+              src="yearly_crime_trends.png"
+              alt="Yearly crime trends in SF"
+              style="max-width: 100%"
+              class="overflow-hidden border-4 border-stone-300"
+            />
+          </div>
         </div>
       </div>
     </main>
